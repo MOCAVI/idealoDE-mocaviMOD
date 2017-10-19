@@ -263,8 +263,11 @@ class IdealoDE extends CSVPluginGenerator
             'isbn',
             'fedas',
             'warranty',
-            'price',
             'price_old',
+						'price_vorkasse'
+						'price_paypal',
+						'price_paypalplus'
+						'price_nachnahme'
             'weight',
             'category1',
             'category2',
@@ -468,8 +471,11 @@ class IdealoDE extends CSVPluginGenerator
                     'isbn' 				=> $this->elasticExportCoreHelper->getBarcodeByType($variation, ElasticExportCoreHelper::BARCODE_ISBN),
                     'fedas' 			=> $variation['data']['item']['amazonFedas'],
                     'warranty' 			=> '',
-                    'price' 			=> $priceList['price'],
                     'price_old' 		=> $priceList['price_old'],
+										'price_vorkasse' => number_format(round($priceList['price']*0.95,2),2),
+										'price_paypal' 			=> $priceList['price'],
+										'price_paypalplus' 			=> $priceList['price'],
+										'price_nachnahme' 			=> $priceList['price'+4.50],
                     'weight' 			=> $variation['data']['variation']['weightG'],
                     'category1' 		=> $this->elasticExportCoreHelper->getCategoryBranch((int)$variation['data']['defaultCategories'][0]['id'], $settings, 1),
                     'category2' 		=> $this->elasticExportCoreHelper->getCategoryBranch((int)$variation['data']['defaultCategories'][0]['id'], $settings, 2),
@@ -480,7 +486,7 @@ class IdealoDE extends CSVPluginGenerator
                     'category_concat' 	=> $this->elasticExportCoreHelper->getCategory((int)$variation['data']['defaultCategories'][0]['id'], $settings->get('lang'), $settings->get('plentyId')),
                     'image_url_preview' => $this->elasticExportCoreHelper->getImageUrlBySize($imageDataList[0], ElasticExportCoreHelper::SIZE_PREVIEW),
                     'image_url' 		=> $this->elasticExportCoreHelper->getImageUrlBySize($imageDataList[0], ElasticExportCoreHelper::SIZE_NORMAL),
-                    'base_price' 		=> $this->elasticExportPriceHelper->getBasePrice($variation, $priceList['price'], $settings->get('lang'), '/', false, true, $priceList['currency']),
+                    //'base_price' 		=> $this->elasticExportPriceHelper->getBasePrice($variation, $priceList['price'], $settings->get('lang'), '/', false, true, $priceList['currency']),
                     'free_text_field'   => $this->propertyHelper->getFreeText($variation),
                     'checkoutApproved'	=> $checkoutApproved,
                 ];
