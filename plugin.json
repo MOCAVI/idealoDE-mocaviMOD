@@ -5,8 +5,7 @@
   "author": "MOCAVI DESiGN SOFTWARE",
   "type": "export",
   "authorIcon": "icon_author_xs.png",
-  "serviceProvider": "ElasticExportIdealoDEmocaviMOD\\ElasticExportIdea
-  loDEmocaviMODServiceProvider",
+  "serviceProvider": "ElasticExportIdealoDEmocaviMOD\\ElasticExportIdealoDEmocaviMODServiceProvider",
   "license": "GNU AFFERO GENERAL PUBLIC LICENSE Version 3, 19 November 2007",
   "pluginIcon": "icon_plugin_md.png",
   "price": 0.00,
