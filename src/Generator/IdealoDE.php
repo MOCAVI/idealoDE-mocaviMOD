@@ -281,13 +281,13 @@ class IdealoDE extends CSVPluginGenerator
             'itemsInStock',
             'fulfillmentType',
             'twoManHandlingPrice',
-            'disposalPrice'
-						'Vorkasse'	//ADK
-						'PayPal'	//ADK
-						'Kreditkarte'	//ADK
-						'AmazonPay'	//ADK
-						'Rechnung'	//ADK
-						'Lastschrift'	//ADK
+            'disposalPrice',
+						'Vorkasse',	//ADK
+						'PayPal',	//ADK
+						'Kreditkarte',	//ADK
+						'AmazonPay',	//ADK
+						'Rechnung',	//ADK
+						'Lastschrift',	//ADK
 						'Nachnahme'	//ADK
         ];
 

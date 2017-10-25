@@ -184,7 +184,7 @@ class IdealoDE extends ResultFields
                 'properties.selection.name',
                 'properties.texts.value',
                 'properties.valueInt',
-                'properties.valueFloat',
+                'properties.valueFloat'
             ],
 
             [
@@ -234,7 +234,7 @@ class IdealoDE extends ResultFields
 
             //unit
             'unit.content',
-            'unit.id',
+            'unit.id'
         ];
 
         return $keyList;
@@ -279,7 +279,7 @@ class IdealoDE extends ResultFields
                 'urlSecondPreview',
                 'url',
                 'path',
-                'position',
+                'position'
             ],
             'images.variation' => [
                 'urlMiddle',
@@ -287,7 +287,7 @@ class IdealoDE extends ResultFields
                 'urlSecondPreview',
                 'url',
                 'path',
-                'position',
+                'position'
             ],
 
             //sku
@@ -304,7 +304,7 @@ class IdealoDE extends ResultFields
                 'name3',
                 'shortDescription',
                 'description',
-                'technicalData',
+                'technicalData'
             ],
 
             //defaultCategories
@@ -315,14 +315,14 @@ class IdealoDE extends ResultFields
             //barcodes
             'barcodes'  => [
                 'code',
-                'type',
+                'type'
             ],
 
             //attributes
             'attributes'   => [
                 'attributeValueSetId',
                 'attributeId',
-                'valueId',
+                'valueId'
             ],
 
             //proprieties
@@ -332,7 +332,7 @@ class IdealoDE extends ResultFields
                 'selection.name',
                 'texts.value',
                 'valueInt',
-                'valueFloat',
+                'valueFloat'
             ]
         ];
 
