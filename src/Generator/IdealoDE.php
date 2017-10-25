@@ -263,12 +263,9 @@ class IdealoDE extends CSVPluginGenerator
             'isbn',
             'fedas',
             'warranty',
-            'price_old',
-						'price_vorkasse',
-						'price_paypal',
-						'price_paypalplus',
-						'price_nachnahme',
-            'weight',
+            'price',
+						'price_old',
+						'weight',
             'category1',
             'category2',
             'category3',
@@ -278,125 +275,138 @@ class IdealoDE extends CSVPluginGenerator
             'category_concat',
             'image_url_preview',
             'image_url',
-            //'base_price',
+            'base_price',
             'free_text_field',
             'checkoutApproved',
             'itemsInStock',
             'fulfillmentType',
             'twoManHandlingPrice',
             'disposalPrice'
+						'Vorkasse'	//ADK
+						'PayPal'	//ADK
+						'Kreditkarte'	//ADK
+						'AmazonPay'	//ADK
+						'Rechnung'	//ADK
+						'Lastschrift'	//ADK
+						'Nachnahme'	//ADK
         ];
 
         /**
          * If the shipping cost type is configuration, all payment methods will be taken as available payment methods from the chosen
          * default shipping configuration.
          */
-        if($settings->get('shippingCostType') == self::SHIPPING_COST_TYPE_CONFIGURATION)
-        {
-			/**
-			 * @var PaymentMethod[] $paymentMethods
-			 */
-            $paymentMethods = $this->elasticExportCoreHelper->getPaymentMethods($settings);
-            $defaultShipping = $this->elasticExportCoreHelper->getDefaultShipping($settings);
 
-            if($defaultShipping instanceof DefaultShipping)
-            {
-                foreach([$defaultShipping->paymentMethod2, $defaultShipping->paymentMethod3] as $paymentMethodId)
-                {
-					if(array_key_exists($paymentMethodId, $paymentMethods))
-					{
-						$usedPaymentMethod = $this->usedPaymentMethods[$defaultShipping->id][0];
-
-						/**
-						 * Three cases:
-						 */
-						if(	(count($this->usedPaymentMethods) == 0) ||
-
-							((count($this->usedPaymentMethods) == 1 || count($this->usedPaymentMethods) == 2)
-                                && $usedPaymentMethod instanceof PaymentMethod
-								&& isset($usedPaymentMethod->id)
-                                && $usedPaymentMethod->id != $paymentMethodId)
-						)
-						{
-							$paymentMethod = $paymentMethods[$paymentMethodId];
-
-							if($paymentMethod instanceof PaymentMethod)
-							{
-                                if(isset($paymentMethod->name) && strlen($paymentMethod->name))
-                                {
-                                    $data[] = $paymentMethod->name;
-                                    $this->usedPaymentMethods[$defaultShipping->id][] = $paymentMethods[$paymentMethodId];
-                                }
-							}
-						}
-					}
-                }
-            }
-        }
-
-        /**
-         * If nothing is checked at the elastic export settings regarding the shipping cost type,
-         * all payment methods within both default shipping configurations will be taken as available payment methods.
-         */
-        elseif($settings->get('shippingCostType') == 1)
-        {
-			/**
-			 * @var PaymentMethod[] $paymentMethods
-			 */
-            $paymentMethods = $this->elasticExportCoreHelper->getPaymentMethods($settings);
-            $this->defaultShippingList = $this->elasticExportCoreHelper->getDefaultShippingList();
-
-            foreach($this->defaultShippingList as $defaultShipping)
-            {
-                if($defaultShipping instanceof DefaultShipping)
-                {
-                    foreach([$defaultShipping->paymentMethod2, $defaultShipping->paymentMethod3] as $paymentMethodId)
-                    {
-                    	if(!array_key_exists($paymentMethodId, $paymentMethods) ||
-							!($paymentMethods[$paymentMethodId] instanceof PaymentMethod))
-						{
-							continue;
-						}
-
-						$paymentMethod = $paymentMethods[$paymentMethodId];
-
-                        if($paymentMethod instanceof PaymentMethod)
-                        {
-                            if((count($this->usedPaymentMethods) == 0))
-                            {
-                                $data[] = $paymentMethod->name;
-                                $this->usedPaymentMethods[$defaultShipping->id][] = $paymentMethods[$paymentMethodId];
-                            }
-                            elseif(count($this->usedPaymentMethods) == 1
-                                && $this->usedPaymentMethods[1][0]->id != $paymentMethodId)
-                            {
-                                $data[] = $paymentMethod->name;
-                                $this->usedPaymentMethods[$defaultShipping->id][] = $paymentMethods[$paymentMethodId];
-                            }
-                            elseif($this->usedPaymentMethods[1][0] instanceof PaymentMethod
-                                && $this->usedPaymentMethods[2][0] instanceof PaymentMethod
-
-                                && count($this->usedPaymentMethods) == 2
-                                && ($this->usedPaymentMethods[1][0]->id != $paymentMethodId
-                                    && $this->usedPaymentMethods[2][0]->id != $paymentMethodId))
-                            {
-                                $data[] = $paymentMethod->name;
-                                $this->usedPaymentMethods[$defaultShipping->id][] = $paymentMethods[$paymentMethodId];
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        if(count($this->usedPaymentMethods) <= 0 || $settings->get('shippingCostType') == self::SHIPPING_COST_TYPE_FLAT)
-        {
-            $data[] = self::DEFAULT_PAYMENT_METHOD;
-        }
-
-        return $data;
-    }
-
+				 /**ADK   Auskommentiert weil:
+				 	*				- nur Vorkasse und PayPal angezeigt wird
+				 	*				- keine Nachnahme als Spalte angezeigt wird -- Folge Idealo zeigt keine Nachnahme als Zahlungsart an
+					*				- bei Spalte Vorkasse wird der Plenty Namen "vorab Überweisung/Vorkasse" angezeigt, somit ist bei Veränderungen des Namens der Zahlart was öfters vorkommt, der Idealo Feed kaputt bzw muss bei denen neu vertaggt werden  */
+/** ADK
+ *				if($settings->get('shippingCostType') == self::SHIPPING_COST_TYPE_CONFIGURATION)
+ *      {
+ *
+ *
+ *			 // @var PaymentMethod[] $paymentMethods
+ *
+ *            $defaultShipping = $this->elasticExportCoreHelper->getDefaultShipping($settings);
+ *
+ *            if($defaultShipping instanceof DefaultShipping)
+ *            {
+ *                {
+ *					if(array_key_exists($paymentMethodId, $paymentMethods))
+ *					{
+ *						$usedPaymentMethod = $this->usedPaymentMethods[$defaultShipping->id][0];
+ *
+ *
+ *						 // Three cases:
+ *
+ *						if(	(count($this->usedPaymentMethods) == 0) ||
+ *
+ *							((count($this->usedPaymentMethods) == 1 || count($this->usedPaymentMethods) == 2)
+ *                                && $usedPaymentMethod instanceof PaymentMethod
+ *							&& isset($usedPaymentMethod->id)
+ *                                && $usedPaymentMethod->id != $paymentMethodId)
+ *						)
+ *						{
+ *							$paymentMethod = $paymentMethods[$paymentMethodId];
+ *
+ *							if($paymentMethod instanceof PaymentMethod)
+ *							{
+ *                                if(isset($paymentMethod->name) && strlen($paymentMethod->name))
+ *                                {
+ *                                    $data[] = $paymentMethod->name;
+ *                                    $this->usedPaymentMethods[$defaultShipping->id][] = $paymentMethods[$paymentMethodId];
+ *                                }
+ *							}
+ *						}
+ *					}
+ *
+ *                }
+ *            }
+ *        }
+ *
+ *
+ *         // If nothing is checked at the elastic export settings regarding the shipping cost type,
+ *         // all payment methods within both default shipping configurations will be taken as available payment methods.
+ *
+ *        elseif($settings->get('shippingCostType') == 1)
+ *        {
+ *
+ *			 // @var PaymentMethod[] $paymentMethods
+ *
+ *            $paymentMethods = $this->elasticExportCoreHelper->getPaymentMethods($settings);
+ *            $this->defaultShippingList = $this->elasticExportCoreHelper->getDefaultShippingList();
+ *
+ *            foreach($this->defaultShippingList as $defaultShipping)
+ *            {
+ *                if($defaultShipping instanceof DefaultShipping)
+ *                {
+ *                    foreach([$defaultShipping->paymentMethod2, $defaultShipping->paymentMethod3] as $paymentMethodId)
+ *                    {
+ *                    	if(!array_key_exists($paymentMethodId, $paymentMethods) ||
+ *							!($paymentMethods[$paymentMethodId] instanceof PaymentMethod))
+ *						{
+ *							continue;
+ *						}
+ *
+ *						$paymentMethod = $paymentMethods[$paymentMethodId];
+ *
+ *                        if($paymentMethod instanceof PaymentMethod)
+ *                        {
+ *                            if((count($this->usedPaymentMethods) == 0))
+ *                            {
+ *                                $data[] = $paymentMethod->name;
+ *                                $this->usedPaymentMethods[$defaultShipping->id][] = $paymentMethods[$paymentMethodId];
+ *                            }
+ *                            elseif(count($this->usedPaymentMethods) == 1
+ *                                && $this->usedPaymentMethods[1][0]->id != $paymentMethodId)
+ *                            {
+ *                                $data[] = $paymentMethod->name;
+ *                                $this->usedPaymentMethods[$defaultShipping->id][] = $paymentMethods[$paymentMethodId];
+ *                            }
+ *                            elseif($this->usedPaymentMethods[1][0] instanceof PaymentMethod
+ *                                && $this->usedPaymentMethods[2][0] instanceof PaymentMethod
+ *
+ *                                && count($this->usedPaymentMethods) == 2
+ *                                && ($this->usedPaymentMethods[1][0]->id != $paymentMethodId
+ *                                    && $this->usedPaymentMethods[2][0]->id != $paymentMethodId))
+ *                            {
+ *                                $data[] = $paymentMethod->name;
+ *                                $this->usedPaymentMethods[$defaultShipping->id][] = $paymentMethods[$paymentMethodId];
+ *                            }
+ *                        }
+ *                    }
+ *                }
+ *            }
+ *        }
+ *
+ *        if(count($this->usedPaymentMethods) <= 0 || $settings->get('shippingCostType') == self::SHIPPING_COST_TYPE_FLAT)
+ *        {
+ *            $data[] = self::DEFAULT_PAYMENT_METHOD;
+ *        }
+ *
+ *        return $data;
+ *    }
+ *ADK */
     /**
      * Creates the variation rows and prints them into the CSV file.
      *
@@ -471,12 +481,9 @@ class IdealoDE extends CSVPluginGenerator
                     'isbn' 				=> $this->elasticExportCoreHelper->getBarcodeByType($variation, ElasticExportCoreHelper::BARCODE_ISBN),
                     'fedas' 			=> $variation['data']['item']['amazonFedas'],
                     'warranty' 			=> '',
+										'price'		=> $priceList['price'],
 										'price_old'			=> $priceList['price_old'],
-										'price_vorkasse'		=> number_format(round($priceList['price']*0.95,2),2),
-										'price_paypal'		=> $priceList['price'],
-										'price_paypalplus'		=> $priceList['price'],
-										'price_nachnahme'		=> number_format($priceList['price']+4.50,2),
-                    'weight' 			=> $variation['data']['variation']['weightG'],
+										'weight' 			=> $variation['data']['variation']['weightG'],
                     'category1' 		=> $this->elasticExportCoreHelper->getCategoryBranch((int)$variation['data']['defaultCategories'][0]['id'], $settings, 1),
                     'category2' 		=> $this->elasticExportCoreHelper->getCategoryBranch((int)$variation['data']['defaultCategories'][0]['id'], $settings, 2),
                     'category3' 		=> $this->elasticExportCoreHelper->getCategoryBranch((int)$variation['data']['defaultCategories'][0]['id'], $settings, 3),
@@ -486,9 +493,19 @@ class IdealoDE extends CSVPluginGenerator
                     'category_concat' 	=> $this->elasticExportCoreHelper->getCategory((int)$variation['data']['defaultCategories'][0]['id'], $settings->get('lang'), $settings->get('plentyId')),
                     'image_url_preview' => $this->elasticExportCoreHelper->getImageUrlBySize($imageDataList[0], ElasticExportCoreHelper::SIZE_PREVIEW),
                     'image_url' 		=> $this->elasticExportCoreHelper->getImageUrlBySize($imageDataList[0], ElasticExportCoreHelper::SIZE_NORMAL),
-                    //'base_price' 		=> $this->elasticExportPriceHelper->getBasePrice($variation, $priceList['price'], $settings->get('lang'), '/', false, true, $priceList['currency']),
+                    'base_price' 		=> $this->elasticExportPriceHelper->getBasePrice($variation, $priceList['price'], $settings->get('lang'), '/', false, true, $priceList['currency']),
                     'free_text_field'   => $this->propertyHelper->getFreeText($variation),
                     'checkoutApproved'	=> $checkoutApproved,
+										//'price_vorkasse'		=> number_format(round($priceList['price']*0.95,2),2),
+										//'price_nachnahme'		=> number_format($priceList['price']+4.50,2),
+										'Vorkasse'		=> number_format(0.00,2),
+										'PayPal'		=> number_format(0.00,2),
+										'Kreditkarte'		=> number_format(0.00,2),
+										'AmazonPay'		=> number_format(0.00,2),
+										'Rechnung'		=> number_format(0.00,2),
+										'Lastschrift'		=> number_format(0.00,2),
+										'Nachnahme'		=> number_format(4.50,2),
+
                 ];
 
                 /**
