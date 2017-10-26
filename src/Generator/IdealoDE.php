@@ -282,15 +282,15 @@ class IdealoDE extends CSVPluginGenerator
             'fulfillmentType',
             'twoManHandlingPrice',
             'disposalPrice',
-						'Vorkasse',	//ADK
-						'PayPal',	//ADK
-						'Kreditkarte',	//ADK
-						'AmazonPay',	//ADK
-						'Rechnung',	//ADK
-						'Lastschrift',	//ADK
-						'Nachnahme'	//ADK
+						'Vorkasse',
+						'PayPal',
+						'Kreditkarte',
+						'AmazonPay',
+						'Rechnung',
+						'Lastschrift',
+						'Nachnahme'
         ];
-
+			}
         /**
          * If the shipping cost type is configuration, all payment methods will be taken as available payment methods from the chosen
          * default shipping configuration.
@@ -405,8 +405,9 @@ class IdealoDE extends CSVPluginGenerator
  *        }
  *
  *        return $data;
- *    }
  *ADK */
+
+
     /**
      * Creates the variation rows and prints them into the CSV file.
      *
@@ -496,15 +497,13 @@ class IdealoDE extends CSVPluginGenerator
                     'base_price' 		=> $this->elasticExportPriceHelper->getBasePrice($variation, $priceList['price'], $settings->get('lang'), '/', false, true, $priceList['currency']),
                     'free_text_field'   => $this->propertyHelper->getFreeText($variation),
                     'checkoutApproved'	=> $checkoutApproved,
-										//'price_vorkasse'		=> number_format(round($priceList['price']*0.95,2),2),
-										//'price_nachnahme'		=> number_format($priceList['price']+4.50,2),
-										'Vorkasse'		=> number_format(0.00,2),
-										'PayPal'		=> number_format(0.00,2),
-										'Kreditkarte'		=> number_format(0.00,2),
-										'AmazonPay'		=> number_format(0.00,2),
-										'Rechnung'		=> number_format(0.00,2),
-										'Lastschrift'		=> number_format(0.00,2),
-										'Nachnahme'		=> number_format(4.50,2),
+										'Vorkasse'		=> $priceList['price'],
+										'PayPal'		=> $priceList['price'],
+										'Kreditkarte'		=> $priceList['price'],
+										'AmazonPay'		=> $priceList['price'],
+										'Rechnung'		=> $priceList['price'],
+										'Lastschrift'		=> $priceList['price'],
+										'Nachnahme'		=> $priceList['price']
 
                 ];
 
