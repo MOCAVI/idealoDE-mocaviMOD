@@ -1,5 +1,12 @@
 
 
+
+MOCAVI Mod Version v0.1.0 (2017-10-26)  
+inklude Update auf idealoDE ElasticExport v1.0.18
+-erste STABLE Version im aktiv Gebrauch
+-VORSICHT: Korrektur der Kommafehler im Original Plugin in mehreren phpDateien enden mit ",]" ist Standard Fehler, gibt Probleme beim initalisieren v.0.0.6 bis v.0.0.10
+-des Weiteren: durch die dynamische Hinzufügung der Zahlungsmethoden, two handling usw. werden die Spalten in der CSV HEAD und dessen Inhalt verschoben. Workaround -nach oben verschieben in dennicht dynamischen Teil.
+
 MOCAVI Mod Version v0.0.6 (2017-10-25)
 inklude Update auf idealoDE ElasticExport v1.0.18
 -Syntax error fix

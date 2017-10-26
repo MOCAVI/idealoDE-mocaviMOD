@@ -186,10 +186,10 @@ class PropertyHelper
                     $propertyName = $this->propertyNameRepository->findOne($property['property']['id'], 'de');
                     $propertyMarketReference = $this->propertyMarketReferenceRepository->findOne($property['property']['id'], self::IDEALO_DE);
 //ADK Änderung auf ElasticExportIdealoDE v.1.0.18
-//                    if(is_null($propertyMarketReference))
-//                    {
-//                      $propertyMarketReference = $this->propertyMarketReferenceRepository->findOne($property['property']['id'], self::IDEALO_DE_DIREKTKAUF);
-//                    }
+                    if(is_null($propertyMarketReference))
+                    {
+                      $propertyMarketReference = $this->propertyMarketReferenceRepository->findOne($property['property']['id'], self::IDEALO_DE_DIREKTKAUF);
+                   }
 //ENDE
                     // Skip properties which do not have the External Component set up
                     if(!($propertyName instanceof PropertyName) ||
