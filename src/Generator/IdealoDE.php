@@ -276,19 +276,20 @@ class IdealoDE extends CSVPluginGenerator
             'image_url_preview',
             'image_url',
             'base_price',
-            'free_text_field',
-            'checkoutApproved',
-            'itemsInStock',
-            'fulfillmentType',
-            'twoManHandlingPrice',
-            'disposalPrice',
 						'v_vorkasse',
 						'v_paypal',
 						'v_kreditkarte',
 						'v_amazonpay',
 						'v_rechnung',
 						'v_lastschrift',
-						'v_nachnahme'
+						'v_nachnahme',
+            'free_text_field',
+            'checkoutApproved',
+            'itemsInStock',
+            'fulfillmentType',
+            'twoManHandlingPrice',
+            'disposalPrice'
+
         ];
 
         /**
@@ -488,15 +489,17 @@ class IdealoDE extends CSVPluginGenerator
                     'image_url_preview' => $this->elasticExportCoreHelper->getImageUrlBySize($imageDataList[0], ElasticExportCoreHelper::SIZE_PREVIEW),
                     'image_url' 		=> $this->elasticExportCoreHelper->getImageUrlBySize($imageDataList[0], ElasticExportCoreHelper::SIZE_NORMAL),
                     'base_price' 		=> $this->elasticExportPriceHelper->getBasePrice($variation, $priceList['price'], $settings->get('lang'), '/', false, true, $priceList['currency']),
-                    'free_text_field'   => $this->propertyHelper->getFreeText($variation),
-                    'checkoutApproved'	=> $checkoutApproved,
 										'v_vorkasse'		=> $priceList['price'],
-									  'v_paypal'		=> $priceList['price'],
-									  'v_kreditkarte'		=> $priceList['price'],
-									  'v_amazonpay'		=> $priceList['price'],
-									  'v_rechnung'		=> $priceList['price'],
-									  'v_lastschrift'		=> $priceList['price'],
-									  'v_nachnahme'		=> $priceList['price']
+										'v_paypal'		=> number_format(0.00,2),
+										'v_kreditkarte'		=> $priceList['price'],
+										'v_amazonpay'		=> $priceList['price'],
+										'v_rechnung'		=> $priceList['price'],
+										'v_lastschrift'		=> $priceList['price'],
+										'v_nachnahme'		=> number_format(4.50,2),
+                    'free_text_field'   => $this->propertyHelper->getFreeText($variation),
+                    'checkoutApproved'	=> $checkoutApproved
+
+
                 ];
 
                 /**
