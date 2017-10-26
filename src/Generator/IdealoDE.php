@@ -137,7 +137,7 @@ class IdealoDE extends CSVPluginGenerator
                 }
 
                 $this->getLogger(__METHOD__)->debug('ElasticExportIdealoDEmocaviMOD::item.writtenLines', [
-                    'Lines written' => $limit,
+                    'Lines written' => $limit
                 ]);
 
                 $esStartTime = microtime(true);
@@ -146,13 +146,13 @@ class IdealoDE extends CSVPluginGenerator
                 $resultList = $elasticSearch->execute();
 
                 $this->getLogger(__METHOD__)->debug('ElasticExportIdealoDEmocaviMOD::item.esDuration', [
-                    'Elastic Search duration' => microtime(true) - $esStartTime,
+                    'Elastic Search duration' => microtime(true) - $esStartTime
                 ]);
 
                 if(count($resultList['error']) > 0)
                 {
                     $this->getLogger(__METHOD__)->error('ElasticExportIdealoDEmocaviMOD::item.occurredElasticSearchErrors', [
-                        'Error message' => $resultList['error'],
+                        'Error message' => $resultList['error']
                     ]);
 
                     break;
@@ -229,7 +229,7 @@ class IdealoDE extends CSVPluginGenerator
                     }
 
                     $this->getLogger(__METHOD__)->debug('ElasticExportIdealoDEmocaviMOD::item.buildRowDuration', [
-                        'Build rows duration' => microtime(true) - $buildRowStartTime,
+                        'Build rows duration' => microtime(true) - $buildRowStartTime
                     ]);
                 }
 
@@ -237,7 +237,7 @@ class IdealoDE extends CSVPluginGenerator
         }
 
         $this->getLogger(__METHOD__)->debug('ElasticExportIdealoDEmocaviMOD::item.fileGenerationDuration', [
-            'Whole file generation duration' => microtime(true) - $startTime,
+            'Whole file generation duration' => microtime(true) - $startTime
         ]);
     }
 
@@ -496,7 +496,7 @@ class IdealoDE extends CSVPluginGenerator
 									  'v_amazonpay'		=> $priceList['price'],
 									  'v_rechnung'		=> $priceList['price'],
 									  'v_lastschrift'		=> $priceList['price'],
-									  'v_nachnahme'		=> $priceList['price']									
+									  'v_nachnahme'		=> $priceList['price']
                 ];
 
                 /**
